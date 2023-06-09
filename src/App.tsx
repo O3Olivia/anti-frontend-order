@@ -10,20 +10,31 @@ import { MainPage, OrdersPage, NotFoundPage } from 'pages';
 import Path from 'models/Path';
 
 import './App.css';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+    },
+  },
+});
 
 function App() {
   return (
-    <RecoilRoot>
-      <ThemeProvider theme={theme}>
-        <Layout>
-          <Routes>
-            <Route path={Path.MAIN} element={<MainPage />} />
-            <Route path={Path.ORDERS} element={<OrdersPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </Layout>
-      </ThemeProvider>
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <ThemeProvider theme={theme}>
+          <Layout>
+            <Routes>
+              <Route path={Path.MAIN} element={<MainPage />} />
+              <Route path={Path.ORDERS} element={<OrdersPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </Layout>
+        </ThemeProvider>
+      </RecoilRoot>
+    </QueryClientProvider>
   );
 }
 
